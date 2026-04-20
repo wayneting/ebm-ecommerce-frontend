@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import LegacyLayout from '@/layouts/LegacyLayout.vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth_v2'转换,StartLine:4,TargetContent:
 
 const auth = useAuthStore()
 
