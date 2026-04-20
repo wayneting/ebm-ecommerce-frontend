@@ -5,7 +5,7 @@
  */
 import { computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { useAuthStore } from '@/stores/auth_v2'
+import { useAuthStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
 import { useDongleStore } from '@/stores/dongle'
 import { useOrderStore } from '@/stores/order'
@@ -81,15 +81,6 @@ function formatDate(iso: string): string {
           <p class="text-sm text-ebm-text-muted mt-1">
             {{ cart.itemCount > 0 ? `${cart.itemCount} 項待結帳` : '尚無商品' }}
           </p>
-        </EbmCard>
-      </RouterLink>
-      <!-- 舊版界面入口 -->
-      <RouterLink to="/legacy/account" class="block">
-        <EbmCard hoverable class="bg-blue-50/50 border-blue-100">
-          <div class="h-12 w-12 rounded-xl flex items-center justify-center text-2xl mb-4"
-            style="background:#FEF3C7; color:#D97706">🎞️</div>
-          <h3 class="text-lg font-bold text-ebm-primary">舊版界面 (1:1)</h3>
-          <p class="text-sm text-ebm-text-muted mt-1 text-blue-700">復刻 ASP.NET 原始設計</p>
         </EbmCard>
       </RouterLink>
     </div>

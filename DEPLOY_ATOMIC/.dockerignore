@@ -1,0 +1,40 @@
+# 不進 Docker build context 的檔案 — 保持 build 小而快
+
+# 依賴與生成物（Stage 1 會自己 npm ci + build）
+node_modules
+dist
+.vite
+
+# Git / IDE
+.git
+.gitignore
+.gitattributes
+.vscode
+.idea
+
+# Logs & OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Env & secrets（絕對不能進 image，但 builder 階段需要 .env.production 做編譯）
+#.env
+#.env.*
+!.env.example
+
+# 部署相關（已經在 image 外用了）
+Dockerfile
+.dockerignore
+deploy.sh
+cloudbuild.yaml
+DEPLOY.md
+README.md
+
+# Test
+coverage
+.nyc_output
+*.test.ts
+*.spec.ts
+
+# 上一層失敗的 scaffold 殘留（不會進 context 因為 build 在 frontend/，但保險）
+../ebm-ecommerce
