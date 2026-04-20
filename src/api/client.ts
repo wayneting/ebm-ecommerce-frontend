@@ -1,19 +1,35 @@
 /**
  * EBMECAPI HTTP client
  *
- * 目前前端使用 `src/mocks/*` 與 Pinia stores 提供假資料，尚未接 API。
- * 待後端 API 穩定後，將各 store 的 fetch 實作改為呼叫此 client。
+ * 統一的 axios 實例 + request / response interceptor：
+ *   - baseURL 讀 VITE_API_BASE_URL（預設 /ECAPI）
+ *   - request 自動帶 Bearer JWT（從 localStorage 讀）
+ *   - response 401 自動清 token 並重導 /login
+ *   - 統一錯誤型別 ApiError
  *
- * 認證方式：Bearer JWT（Authorization header）。
+ * Dev mode 下，vite-plugin-mock 會攔截 /ECAPI/api/* 並回傳 mock data；
+ * Prod build 走真後端（webris.ebmtech.com/ECAPI 或 vite proxy target）。
  */
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/ECAPI'
+import axios, { AxiosError, type AxiosInstance, type AxiosRequestConfig } from 'axios'
+
 const TOKEN_KEY = 'ebm_token'
+
+export function getToken(): string | null {
+  if (typeof window === 'undefined') return null
+  return window.localStorage.getItem(TOKEN_KEY)
+}
+
+export function setToken(token: string | null): void {
+  if (typeof window === 'undefined') return
+  if (token) window.localStorage.setItem(TOKEN_KEY, token)
+  else window.localStorage.removeItem(TOKEN_KEY)
+}
 
 export class ApiError extends Error {
   constructor(
     public status: number,
-    public body: unknown,
+    public data: unknown,
     message?: string,
   ) {
     super(message ?? `API error ${status}`)
@@ -21,40 +37,51 @@ export class ApiError extends Error {
   }
 }
 
-function getToken(): string | null {
-  if (typeof window === 'undefined') return null
-  return window.localStorage.getItem(TOKEN_KEY)
-}
+const http: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? '/ECAPI',
+  headers: { 'Content-Type': 'application/json' },
+  timeout: 30_000,
+})
 
-export function setToken(token: string | null) {
-  if (typeof window === 'undefined') return
-  if (token) window.localStorage.setItem(TOKEN_KEY, token)
-  else window.localStorage.removeItem(TOKEN_KEY)
-}
-
-async function request<TResponse = unknown>(
-  path: string,
-  body: unknown = {},
-): Promise<TResponse> {
+// Request interceptor — 自動帶 Bearer JWT
+http.interceptors.request.use((config) => {
   const token = getToken()
-  const res = await fetch(`${BASE_URL}${path}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify(body),
-  })
-
-  const text = await res.text()
-  const data = text ? (JSON.parse(text) as TResponse) : (null as TResponse)
-
-  if (!res.ok) {
-    throw new ApiError(res.status, data, `${path} failed (${res.status})`)
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
   }
-  return data
-}
+  return config
+})
 
+// Response interceptor — 統一錯誤
+//
+// 401 時僅清 token（不主動跳轉）。跳轉邏輯讓呼叫端 / router guard 決定，
+// 避免 login 路由尚未建立前的 redirect loop。
+http.interceptors.response.use(
+  (res) => res,
+  (err: AxiosError) => {
+    const status = err.response?.status ?? 0
+    const data = err.response?.data
+
+    if (status === 401 && typeof window !== 'undefined') {
+      setToken(null)
+    }
+
+    return Promise.reject(new ApiError(status, data, err.message))
+  },
+)
+
+/**
+ * EBMECAPI 全部是 POST，統一用 post(path, body)。
+ */
 export const apiClient = {
-  post: request,
+  async post<TResponse = unknown, TRequest = unknown>(
+    path: string,
+    body?: TRequest,
+    config?: AxiosRequestConfig,
+  ): Promise<TResponse> {
+    const res = await http.post<TResponse>(path, body ?? {}, config)
+    return res.data
+  },
+
+  raw: http,
 }

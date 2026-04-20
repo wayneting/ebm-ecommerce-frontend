@@ -43,4 +43,5 @@ __screenshots__/
 /src/views/LoginView.vue
 /src/views/MarketingView.vue
 /src/api/endpoints/auth.ts
-/src/types/api.ts
+# 注意：src/types/api.ts 是 openapi-typescript 自動產生的 schema 檔，
+# 必須進 Git 否則 Cloud Build 會缺型別。不要排除它。
