@@ -6,6 +6,7 @@ import type { User } from '@/types/models'
 
 /**
  * Login request shape · 對應 EBMECAPI 的 LoginRequest schema。
+ * 本地定義以避免與自動產生的 `@/types/schemas` 衝突。
  */
 interface LoginRequest {
   UserID: string
@@ -46,7 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
         body,
       )
 
-      // 從回應尋找 token。後端實際欄位名若不同，這裡自動 fallback。
+      // 從回應尋找 token。
       const token =
         (raw?.Token as string | undefined) ??
         (raw?.token as string | undefined) ??
@@ -58,7 +59,7 @@ export const useAuthStore = defineStore('auth', () => {
         setToken(token)
       }
 
-      // 無論 token 是否在 body 中（也可能是 Set-Cookie），都呼叫 /me 驗證
+      // 無論 token 是否在 body 中，都呼叫 /me 驗證
       await fetchMe()
     } finally {
       loading.value = false

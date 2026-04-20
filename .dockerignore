@@ -17,9 +17,9 @@ dist
 .DS_Store
 Thumbs.db
 
-# Env & secrets（絕對不能進 image）
-.env
-.env.*
+# Env & secrets（絕對不能進 image，但 builder 階段需要 .env.production 做編譯）
+#.env
+#.env.*
 !.env.example
 
 # 部署相關（已經在 image 外用了）
