@@ -9,18 +9,20 @@ import { viteMockServe } from 'vite-plugin-mock'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  // VITE_USE_MOCK=true 時啟用 mock server（dev 預設啟用）。
-  // VITE_USE_MOCK=false 時走真後端，前端 /ECAPI/* 走 server.proxy。
-  const useMock = env.VITE_USE_MOCK !== 'false'
+  // dev 預設啟用 mock，prod 預設關閉。
+  // 要反向：在 .env.local 設 VITE_USE_MOCK 覆寫。
+  const enableMock = env.VITE_USE_MOCK !== 'false'
 
   return {
     plugins: [
       vue(),
       vueDevTools(),
       tailwindcss(),
+      // vite-plugin-mock 只在 dev server 生效（middleware 攔截）。
+      // production build 不會 inject 任何 mock 程式碼，打真 API。
       viteMockServe({
         mockPath: 'mock',
-        enable: useMock,
+        enable: enableMock,
         logger: true,
       }),
     ],
@@ -32,7 +34,6 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 5173,
       proxy: {
-        // 當 useMock=false 時，/ECAPI/* 透傳到實際後端
         '/ECAPI': {
           target: env.VITE_API_TARGET ?? 'http://localhost:5000',
           changeOrigin: true,

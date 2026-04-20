@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { apiClient, setToken, ApiError } from '@/api/client'
+import { apiClient, setToken } from '@/api/client'
 import { mapUser } from '@/api/mappers'
 import type { User } from '@/types/models'
 
 /**
  * Login request shape · 對應 EBMECAPI 的 LoginRequest schema。
- * 本地定義避免依賴 auto-generated `src/types/api.ts`（該檔可能被 gitignore）。
  */
 interface LoginRequest {
   UserID: string
@@ -14,11 +13,12 @@ interface LoginRequest {
 }
 
 /**
- * Auth Store
+ * Auth Store · 對接 EBMECAPI `/api/auth/*`
  *
- * 對接 EBMECAPI `/api/auth/*`。開發時 vite-plugin-mock 會攔截請求。
- * 測試階段 App.vue 啟動時會呼叫 fetchMe()，mock handler 會回假 user，
- * 因此無需實際登入即可測試其它頁面。
+ * - user === null 代表未登入
+ * - login() 真的打 /api/auth/login 拿 Token 存 localStorage
+ * - 後續 request 靠 axios interceptor 自動帶 Bearer header
+ * - 401 時 user 歸 null，由 router guard 導到 /login
  */
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
@@ -31,10 +31,8 @@ export const useAuthStore = defineStore('auth', () => {
       const raw = await apiClient.post<Record<string, unknown>>('/api/auth/me')
       user.value = mapUser(raw)
       return user.value
-    } catch (e) {
-      if (e instanceof ApiError && e.status === 401) {
-        user.value = null
-      }
+    } catch {
+      user.value = null
       return null
     }
   }
@@ -43,11 +41,24 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = true
     try {
       const body: LoginRequest = { UserID: userId, Password: password }
-      const raw = await apiClient.post<{ Token?: string } & Record<string, unknown>>(
+      const raw = await apiClient.post<Record<string, unknown>>(
         '/api/auth/login',
         body,
       )
-      if (raw?.Token) setToken(raw.Token)
+
+      // 從回應尋找 token。後端實際欄位名若不同，這裡自動 fallback。
+      const token =
+        (raw?.Token as string | undefined) ??
+        (raw?.token as string | undefined) ??
+        (raw?.AccessToken as string | undefined) ??
+        (raw?.accessToken as string | undefined) ??
+        null
+
+      if (token) {
+        setToken(token)
+      }
+
+      // 無論 token 是否在 body 中（也可能是 Set-Cookie），都呼叫 /me 驗證
       await fetchMe()
     } finally {
       loading.value = false
@@ -57,10 +68,11 @@ export const useAuthStore = defineStore('auth', () => {
   async function logout(): Promise<void> {
     try {
       await apiClient.post('/api/auth/logout')
-    } finally {
-      setToken(null)
-      user.value = null
+    } catch {
+      /* ignore — 即使後端呼叫失敗也要清本地狀態 */
     }
+    setToken(null)
+    user.value = null
   }
 
   async function checkLoginStatus(): Promise<boolean> {

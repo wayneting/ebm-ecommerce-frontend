@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
@@ -8,17 +8,18 @@ const auth = useAuthStore()
 const cart = useCartStore()
 const route = useRoute()
 
-// 應用啟動時呼叫 /api/auth/me 取得使用者資訊。
-// Mock 模式下會取得假 user 並進入已登入狀態；真實環境沒 token 時 store 會收到 401 並保持未登入。
-onMounted(() => {
-  void auth.fetchMe()
-})
-
 const inAdmin = computed(() => route.path.startsWith('/admin'))
 const inApp = computed(() => route.path.startsWith('/app'))
+const inLogin = computed(() => route.path.startsWith('/login'))
 
-// Admin 頁面自帶 sidebar layout，不顯示全站 header。
-const showGlobalChrome = computed(() => !inAdmin.value)
+// Admin 頁面自帶 sidebar layout；登入頁也不顯示全站 header。
+const showGlobalChrome = computed(() => !inAdmin.value && !inLogin.value)
+
+async function handleLogout() {
+  await auth.logout()
+  // logout 完導到 /login
+  window.location.href = '/login'
+}
 </script>
 
 <template>
@@ -91,6 +92,12 @@ const showGlobalChrome = computed(() => !inAdmin.value)
               {{ auth.user?.displayName?.[0] ?? 'U' }}
             </div>
             <span class="text-sm text-ebm-text-muted hidden md:inline">{{ auth.user?.displayName }}</span>
+            <button
+              class="text-xs text-ebm-text-muted hover:text-ebm-error ml-2"
+              @click="handleLogout"
+            >
+              登出
+            </button>
           </div>
         </nav>
       </div>

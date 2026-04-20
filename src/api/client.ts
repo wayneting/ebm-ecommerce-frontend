@@ -41,6 +41,9 @@ const http: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL ?? '/ECAPI',
   headers: { 'Content-Type': 'application/json' },
   timeout: 30_000,
+  // 同時支援 Bearer JWT（header）與 Cookie-based auth。
+  // 若後端用 Set-Cookie 回 session，withCredentials: true 會讓瀏覽器自動帶 Cookie 回去。
+  withCredentials: true,
 })
 
 // Request interceptor — 自動帶 Bearer JWT
