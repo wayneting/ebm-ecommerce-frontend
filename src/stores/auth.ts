@@ -89,3 +89,4 @@ export const useAuthStore = defineStore('auth', () => {
 
   return { user, loading, isLoggedIn, fetchMe, login, logout, checkLoginStatus }
 })
+// Build Force Sync: Tue Apr 21 05:08:02 CST 2026

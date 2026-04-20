@@ -1,0 +1,12 @@
+# .gcloudignore
+# 確保所有 source code 都被上傳到 Cloud Build，不受 .gitignore 影響
+
+.git/
+.gitignore
+node_modules/
+dist/
+
+# 允許所有環境變數與原始碼
+!.env.production
+!src/types/api.ts
+!src/types/schemas.ts
