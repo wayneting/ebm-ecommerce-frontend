@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth_v2'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -113,11 +113,59 @@ const router = createRouter({
       meta: { title: '使用者管理' },
     },
 
+    // ─── Legacy (1:1 舊版復刻) ───
+    {
+      path: '/legacy',
+      redirect: '/legacy/account',
+    },
+    {
+      path: '/legacy/account',
+      name: 'legacy-account',
+      component: () => import('../views/legacy/LegacyAccountView.vue'),
+      meta: { title: '帳戶設定' },
+    },
+    {
+      path: '/legacy/dongles',
+      name: 'legacy-dongle-list',
+      component: () => import('../views/legacy/LegacyDongleListView.vue'),
+      meta: { title: 'Dongle 列表' },
+    },
+    {
+      path: '/legacy/orders',
+      name: 'legacy-order-list',
+      component: () => import('../views/legacy/LegacyOrderListView.vue'),
+      meta: { title: '訂單列表' },
+    },
+    {
+      path: '/legacy/cart',
+      name: 'legacy-cart',
+      component: () => import('../views/legacy/LegacyCartView.vue'),
+      meta: { title: '購物車' },
+    },
+    {
+      path: '/legacy/products',
+      name: 'legacy-product-list',
+      component: () => import('../views/ProductListView.vue'), // 產品列表共用新版，但連結導向舊版配置
+      meta: { title: '選擇產品' },
+    },
+    {
+      path: '/legacy/products/:productId/configure',
+      name: 'legacy-product-config',
+      component: () => import('../views/legacy/LegacyProductConfigView.vue'),
+      meta: { title: '新購產品 - 自訂' },
+    },
+    {
+      path: '/legacy/upgrade/:productId',
+      name: 'legacy-upgrade-select',
+      component: () => import('../views/legacy/LegacyDongleSelectView.vue'),
+      meta: { title: '選擇 Dongle' },
+    },
+
     // ─── POC（舊版結構照抄） ───
     {
       path: '/poc/product-config/:productId',
       name: 'poc-product-config',
-      component: () => import('../views/poc/LegacyProductConfigView.vue'),
+      component: () => import('../views/legacy/LegacyProductConfigView.vue'),
       meta: { title: 'POC · 新購產品-自訂' },
     },
 

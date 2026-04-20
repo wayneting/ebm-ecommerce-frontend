@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth_v2'
 import { useCartStore } from '@/stores/cart'
 
 const auth = useAuthStore()
@@ -85,6 +85,12 @@ async function handleLogout() {
             active-class="text-ebm-cta-hover"
           >
             後台
+          </RouterLink>
+          <RouterLink
+            to="/legacy/account"
+            class="text-xs font-bold px-2 py-1 bg-amber-100 text-amber-700 rounded hover:bg-amber-200"
+          >
+            舊版界面
           </RouterLink>
 
           <div class="flex items-center gap-2 pl-4 border-l border-ebm-border">

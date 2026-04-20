@@ -5,7 +5,7 @@
 import { computed } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cart'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth_v2'
 import { licenseOptions } from '@/mocks/user'
 import EbmButton from '@/components/ui/EbmButton.vue'
 import EbmCard from '@/components/ui/EbmCard.vue'

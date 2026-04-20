@@ -5,7 +5,7 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cart'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth_v2'
 import { useOrderStore } from '@/stores/order'
 import { licenseOptions } from '@/mocks/user'
 import type { Order, PaymentMethod } from '@/types/models'
