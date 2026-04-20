@@ -109,6 +109,14 @@ const router = createRouter({
       meta: { title: '元件規範' },
     },
 
+    // POC · 舊版結構照抄（用於與現有實作並行對比）
+    {
+      path: '/poc/product-config/:productId',
+      name: 'poc-product-config',
+      component: () => import('../views/poc/LegacyProductConfigView.vue'),
+      meta: { title: 'POC · 新購產品-自訂（舊版結構照抄）' },
+    },
+
     // 404 → 回儀表板
     { path: '/:pathMatch(.*)*', redirect: '/app' },
   ],

@@ -1,14 +1,36 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { userOrders } from '@/mocks/orders'
+import { apiClient } from '@/api/client'
+import { mapOrder } from '@/api/mappers'
 import type { Order } from '@/types/models'
 
 export const useOrderStore = defineStore('order', () => {
-  const orders = ref<Order[]>(userOrders)
+  const orders = ref<Order[]>([])
+  const loading = ref(false)
 
-  async function fetchAll() {
-    await new Promise((r) => setTimeout(r, 200))
-    return orders.value
+  async function fetchAll(): Promise<Order[]> {
+    loading.value = true
+    try {
+      const raw = await apiClient.post<{ Items?: unknown[] }>('/api/orders/list')
+      orders.value = (raw?.Items ?? []).map(mapOrder)
+      return orders.value
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function fetchById(id: string): Promise<Order | null> {
+    const raw = await apiClient.post<Record<string, unknown>>('/api/orders/detail', {
+      Id: id,
+    })
+    return raw ? mapOrder(raw) : null
+  }
+
+  async function cancel(id: string): Promise<boolean> {
+    const raw = await apiClient.post<{ Success?: boolean }>('/api/orders/cancel', {
+      Id: id,
+    })
+    return Boolean(raw?.Success)
   }
 
   function findById(id: string): Order | undefined {
@@ -19,5 +41,5 @@ export const useOrderStore = defineStore('order', () => {
     orders.value.unshift(order)
   }
 
-  return { orders, fetchAll, findById, prependOrder }
+  return { orders, loading, fetchAll, fetchById, cancel, findById, prependOrder }
 })

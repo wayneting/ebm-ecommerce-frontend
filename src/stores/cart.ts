@@ -142,9 +142,14 @@ export const useCartStore = defineStore('cart', () => {
   )
 
   async function checkout() {
-    // Mock：延遲後清空購物車，回傳假訂單號
-    await new Promise((r) => setTimeout(r, 800))
-    const orderId = '000' + String(Math.floor(Math.random() * 100000)).padStart(5, '0')
+    const { apiClient } = await import('@/api/client')
+    const raw = await apiClient.post<{ OrderID?: string; OrderNumber?: string }>(
+      '/api/shopping-cart/checkout',
+    )
+    const orderId =
+      raw?.OrderID ??
+      raw?.OrderNumber ??
+      '000' + String(Math.floor(Math.random() * 100000)).padStart(5, '0')
     clear()
     return { orderId }
   }

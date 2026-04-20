@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
@@ -7,6 +7,12 @@ import { useCartStore } from '@/stores/cart'
 const auth = useAuthStore()
 const cart = useCartStore()
 const route = useRoute()
+
+// 應用啟動時呼叫 /api/auth/me 取得使用者資訊。
+// Mock 模式下會取得假 user 並進入已登入狀態；真實環境沒 token 時 store 會收到 401 並保持未登入。
+onMounted(() => {
+  void auth.fetchMe()
+})
 
 const inAdmin = computed(() => route.path.startsWith('/admin'))
 const inApp = computed(() => route.path.startsWith('/app'))

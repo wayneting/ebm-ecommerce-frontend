@@ -3,7 +3,7 @@
  * Dashboard
  * 顯示歡迎訊息、快捷入口、即將到期 Dongles 與最近訂單。
  */
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
@@ -16,6 +16,11 @@ const auth = useAuthStore()
 const cart = useCartStore()
 const dongleStore = useDongleStore()
 const orderStore = useOrderStore()
+
+onMounted(() => {
+  void dongleStore.fetchAll()
+  void orderStore.fetchAll()
+})
 
 const expiringSoon = computed(() =>
   dongleStore.dongles

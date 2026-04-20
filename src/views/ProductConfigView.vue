@@ -33,7 +33,10 @@ const confirmed = ref(false)
 
 const upgradeDongle = computed(() => route.query.upgradeDongle as string | undefined)
 
-onMounted(() => {
+onMounted(async () => {
+  if (productStore.products.length === 0) {
+    await productStore.fetchAll()
+  }
   if (!product.value) {
     router.replace('/app/products')
     return
