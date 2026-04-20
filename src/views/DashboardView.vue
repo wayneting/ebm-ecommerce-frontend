@@ -5,7 +5,7 @@
  */
 import { computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth_v2'
 import { useCartStore } from '@/stores/cart'
 import { useDongleStore } from '@/stores/dongle'
 import { useOrderStore } from '@/stores/order'

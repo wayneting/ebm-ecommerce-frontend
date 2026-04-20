@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth_v2'
 import EbmCard from '@/components/ui/EbmCard.vue'
 import EbmInput from '@/components/ui/EbmInput.vue'
 import EbmButton from '@/components/ui/EbmButton.vue'

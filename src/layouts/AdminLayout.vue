@@ -3,7 +3,7 @@
  * AdminLayout — 左側 sidebar + 頂部 breadcrumb + 主內容 slot。
  */
 import { RouterLink, useRoute, useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth_v2'
 
 interface Props {
   breadcrumb?: string[]
