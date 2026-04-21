@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth_v2'
 import EbmInput from '@/components/ui/EbmInput.vue'
 import EbmButton from '@/components/ui/EbmButton.vue'
 
