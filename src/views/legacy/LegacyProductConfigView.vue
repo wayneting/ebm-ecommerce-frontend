@@ -1,16 +1,100 @@
 <script setup lang="ts">
 /**
- * POC · 新購產品-自訂（照抄舊版 ASP.NET 頁面結構）
- *
- * 對照舊系統 HTML：「EBMtech 電子商務平臺 - 線上購買/升級軟體產品 - 新購產品-自訂.html」
- *
- * 做法：結構、欄位、按鈕文字、操作流程 1:1 複製舊版；只把視覺套到 Tailwind v4 + EBM tokens。
- * 用於與現有獨立模組版本 (/app/products/:id/configure) 並行對比。
+ * Legacy · 新購產品-自訂（1:1 照抄舊版 ASP.NET 頁面結構）
  */
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
 import LegacyLayout from '@/layouts/LegacyLayout.vue'
+import { useCartStore } from '@/stores/cart'
+import { useProductStore } from '@/stores/product'
+import type { ProductModule } from '@/types/models'
 
 const route = useRoute()
-// ... (rest of the script)
+const productStore = useProductStore()
+const cart = useCartStore()
+
+const productId = computed(() => route.params.productId as string)
+const product = computed(() =>
+  productStore.products.find((p) => p.id === productId.value),
+)
+
+const cartItemId = ref<string | null>(null)
+const showAll = ref(true)
+const showDetailIds = ref<Set<string>>(new Set())
+
+onMounted(async () => {
+  if (productStore.products.length === 0) {
+    await productStore.fetchAll()
+  }
+  if (product.value) {
+    const item = cart.addNewPurchase(product.value, 'buyout')
+    cartItemId.value = item.cartItemId
+  }
+})
+
+// 離開頁面時移除草稿 cart item，避免殘留
+onBeforeUnmount(() => {
+  if (cartItemId.value) cart.remove(cartItemId.value)
+})
+
+const currentItem = computed(() =>
+  cartItemId.value
+    ? cart.items.find((i) => i.cartItemId === cartItemId.value)
+    : null,
+)
+
+const visibleModules = computed(() => {
+  if (!product.value || !currentItem.value) return []
+  if (showAll.value) return product.value.modules
+  return product.value.modules.filter((m) => {
+    const sel = currentItem.value!.moduleSelections.find((s) => s.moduleId === m.id)
+    return m.isNecessary || sel?.selected
+  })
+})
+
+function selectionFor(moduleId: string) {
+  return currentItem.value?.moduleSelections.find((s) => s.moduleId === moduleId)
+}
+
+function isSelected(m: ProductModule) {
+  if (m.isNecessary) return true
+  return selectionFor(m.id)?.selected ?? false
+}
+
+function toggle(m: ProductModule) {
+  if (!cartItemId.value || m.isNecessary) return
+  cart.toggleModule(cartItemId.value, m.id)
+}
+
+function quantityFor(m: ProductModule) {
+  return selectionFor(m.id)?.quantity ?? 1
+}
+
+function subtotalFor(m: ProductModule) {
+  if (!currentItem.value) return 0
+  return cart.moduleSubtotal(currentItem.value, m.id)
+}
+
+function toggleDetail(id: string) {
+  const s = new Set(showDetailIds.value)
+  if (s.has(id)) s.delete(id)
+  else s.add(id)
+  showDetailIds.value = s
+}
+
+function anchorLinkFor(id: string) {
+  return `#MODULE-${id}`
+}
+
+function formatNum(n: number): string {
+  return n.toLocaleString('en-US')
+}
+
+function quantityLabel(m: ProductModule): string {
+  if (m.isOnlyOne) return '(限購1個)'
+  if (m.priceType === 'per-unit' && m.step) return `(每 ${m.step} ${m.unit} 為一檔)`
+  return ''
+}
 </script>
 
 <template>
@@ -30,15 +114,12 @@ const route = useRoute()
 
     <!-- Main content -->
     <div>
-      <!-- 頁面標題（對應舊版 <h2>） -->
       <h2 class="text-[1.5em] font-bold text-black border-b border-[#ccc] pb-1 mb-4 italic">
         新購：{{ product.id }} - {{ product.name }}
         <span class="text-base font-normal text-gray-500 not-italic">(價格試算)</span>
       </h2>
 
-      <!-- Module wrapper（對應舊版 BUYPRODUCT_MODULES_WARPPER） -->
       <div class="border border-[#ccc] rounded p-2 bg-white" style="width: 100%; max-width: 820px;">
-        <!-- 顯示切換（對應舊版 "只顯示已購買項目 | 顯示所有項目"） -->
         <div class="m-1 px-2 py-1 text-sm">
           <button
             type="button"
@@ -59,7 +140,6 @@ const route = useRoute()
           </button>
         </div>
 
-        <!-- Module blocks (v-for) -->
         <div
           v-for="m in visibleModules"
           :key="m.id"
@@ -73,7 +153,6 @@ const route = useRoute()
           ]"
         >
           <div class="flex items-start gap-3">
-            <!-- [1] Checkbox col (40px) -->
             <div class="w-10 flex flex-col items-center flex-shrink-0 pt-1">
               <input
                 type="checkbox"
@@ -87,7 +166,6 @@ const route = useRoute()
               </div>
             </div>
 
-            <!-- [2] Info col (300px) -->
             <div class="flex-shrink-0" style="width: 300px;">
               <div class="px-1 py-1 font-bold flex text-black">
                 <div class="flex-shrink-0 font-mono text-sm" style="width: 7em;">{{ m.id }}</div>
@@ -114,7 +192,6 @@ const route = useRoute()
               </div>
             </div>
 
-            <!-- [3] 單價 col -->
             <div class="flex-shrink-0 px-2" style="width: 110px;">
               <div class="text-sm font-bold text-black border-b border-gray-100 mb-1">單價</div>
               <div class="flex mt-1">
@@ -125,7 +202,6 @@ const route = useRoute()
               </div>
             </div>
 
-            <!-- [4] 數量 col -->
             <div class="flex-shrink-0 px-2" style="width: 80px;">
               <div class="text-sm font-bold text-black border-b border-gray-100 mb-1">數量</div>
               <input
@@ -139,7 +215,6 @@ const route = useRoute()
               </div>
             </div>
 
-            <!-- [5] 小計 col (right-aligned) -->
             <div class="flex-shrink-0 px-2 ml-auto" style="width: 130px;">
               <div class="text-sm font-bold text-black border-b border-gray-100 mb-1 text-right">小計</div>
               <div class="flex mt-1 justify-end">
@@ -151,7 +226,6 @@ const route = useRoute()
             </div>
           </div>
 
-          <!-- 關聯子項目（對應舊版 DEPEND_NOTE） -->
           <div
             v-if="m.associatedModuleIds?.length"
             class="pl-14 mt-2 text-xs text-gray-700"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
-import { useAuthStore } from '@/stores/auth_v2'转换,StartLine:4,TargetContent:
+import { useAuthStore } from '@/stores/auth_v2'
 import { useCartStore } from '@/stores/cart'
 
 const auth = useAuthStore()
@@ -109,4 +109,3 @@ function handleLogout() {
   text-decoration: none;
 }
 </style>
-转换
