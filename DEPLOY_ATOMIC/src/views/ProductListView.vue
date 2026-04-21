@@ -4,13 +4,14 @@
  * 點卡片進入 ProductConfigView 配置模組
  */
 import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useProductStore } from '@/stores/product'
 import EbmCard from '@/components/ui/EbmCard.vue'
 import EbmButton from '@/components/ui/EbmButton.vue'
 
 const productStore = useProductStore()
 const router = useRouter()
+const route = useRoute()
 
 onMounted(() => {
   productStore.fetchAll()
@@ -21,7 +22,11 @@ function formatPrice(n: number): string {
 }
 
 function goConfig(productId: string) {
-  router.push(`/app/products/${productId}/configure`)
+  if (route.path.startsWith('/legacy')) {
+    router.push(`/legacy/products/${productId}/configure`)
+  } else {
+    router.push(`/app/products/${productId}/configure`)
+  }
 }
 </script>
 

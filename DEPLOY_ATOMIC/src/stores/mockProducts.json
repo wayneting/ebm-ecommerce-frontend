@@ -1,0 +1,929 @@
+[
+  {
+    "id": "PROD001",
+    "name": "EBM PACS Server",
+    "category": "Medical Imaging",
+    "taglineZh": "高穩定醫療影像伺服器",
+    "description": "企業級 PACS 系統核心，提供影像儲存與調閱服務。",
+    "logo": "EB",
+    "basePrice": 50000,
+    "modules": [
+      {
+        "id": "BA001",
+        "name": "Server Basic (Windows)",
+        "description": "系統核心授權",
+        "category": "basic",
+        "priceType": "fixed",
+        "price": 20000,
+        "isNecessary": true,
+        "isOnlyOne": true
+      },
+      {
+        "id": "BA002",
+        "name": "Server Basic (Linux)",
+        "description": "系統核心授權",
+        "category": "basic",
+        "priceType": "fixed",
+        "price": 20000,
+        "isNecessary": true,
+        "isOnlyOne": true
+      },
+      {
+        "id": "DI001",
+        "name": "DICOM 1",
+        "description": "儀器接入模組 1",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false,
+        "dependModuleIds": [
+          "BA001"
+        ]
+      },
+      {
+        "id": "DI002",
+        "name": "DICOM 2",
+        "description": "儀器接入模組 2",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false,
+        "dependModuleIds": [
+          "DI001"
+        ]
+      },
+      {
+        "id": "DI003",
+        "name": "DICOM 3",
+        "description": "儀器接入模組 3",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "DI004",
+        "name": "DICOM 4",
+        "description": "儀器接入模組 4",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "DI005",
+        "name": "DICOM 5",
+        "description": "儀器接入模組 5",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "DI006",
+        "name": "DICOM 6",
+        "description": "儀器接入模組 6",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "DI007",
+        "name": "DICOM 7",
+        "description": "儀器接入模組 7",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "DI008",
+        "name": "DICOM 8",
+        "description": "儀器接入模組 8",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "DI009",
+        "name": "DICOM 9",
+        "description": "儀器接入模組 9",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "DI010",
+        "name": "DICOM 10",
+        "description": "儀器接入模組 10",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "DI011",
+        "name": "DICOM 11",
+        "description": "儀器接入模組 11",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "DI012",
+        "name": "DICOM 12",
+        "description": "儀器接入模組 12",
+        "category": "device",
+        "priceType": "fixed",
+        "price": 10000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI001",
+        "name": "Storage Integration 1",
+        "description": "儲存模組 1",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI002",
+        "name": "Storage Integration 2",
+        "description": "儲存模組 2",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI003",
+        "name": "Storage Integration 3",
+        "description": "儲存模組 3",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI004",
+        "name": "Storage Integration 4",
+        "description": "儲存模組 4",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI005",
+        "name": "Storage Integration 5",
+        "description": "儲存模組 5",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI006",
+        "name": "Storage Integration 6",
+        "description": "儲存模組 6",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI007",
+        "name": "Storage Integration 7",
+        "description": "儲存模組 7",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI008",
+        "name": "Storage Integration 8",
+        "description": "儲存模組 8",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI009",
+        "name": "Storage Integration 9",
+        "description": "儲存模組 9",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI010",
+        "name": "Storage Integration 10",
+        "description": "儲存模組 10",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI011",
+        "name": "Storage Integration 11",
+        "description": "儲存模組 11",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI012",
+        "name": "Storage Integration 12",
+        "description": "儲存模組 12",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI013",
+        "name": "Storage Integration 13",
+        "description": "儲存模組 13",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI014",
+        "name": "Storage Integration 14",
+        "description": "儲存模組 14",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI015",
+        "name": "Storage Integration 15",
+        "description": "儲存模組 15",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI016",
+        "name": "Storage Integration 16",
+        "description": "儲存模組 16",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI017",
+        "name": "Storage Integration 17",
+        "description": "儲存模組 17",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI018",
+        "name": "Storage Integration 18",
+        "description": "儲存模組 18",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI019",
+        "name": "Storage Integration 19",
+        "description": "儲存模組 19",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI020",
+        "name": "Storage Integration 20",
+        "description": "儲存模組 20",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI021",
+        "name": "Storage Integration 21",
+        "description": "儲存模組 21",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI022",
+        "name": "Storage Integration 22",
+        "description": "儲存模組 22",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI023",
+        "name": "Storage Integration 23",
+        "description": "儲存模組 23",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI024",
+        "name": "Storage Integration 24",
+        "description": "儲存模組 24",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI025",
+        "name": "Storage Integration 25",
+        "description": "儲存模組 25",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI026",
+        "name": "Storage Integration 26",
+        "description": "儲存模組 26",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI027",
+        "name": "Storage Integration 27",
+        "description": "儲存模組 27",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "SI028",
+        "name": "Storage Integration 28",
+        "description": "儲存模組 28",
+        "category": "storage",
+        "priceType": "fixed",
+        "price": 15000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU001",
+        "name": "Viewer Utility 1",
+        "description": "視圖工具 1",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU002",
+        "name": "Viewer Utility 2",
+        "description": "視圖工具 2",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU003",
+        "name": "Viewer Utility 3",
+        "description": "視圖工具 3",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU004",
+        "name": "Viewer Utility 4",
+        "description": "視圖工具 4",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU005",
+        "name": "Viewer Utility 5",
+        "description": "視圖工具 5",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU006",
+        "name": "Viewer Utility 6",
+        "description": "視圖工具 6",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU007",
+        "name": "Viewer Utility 7",
+        "description": "視圖工具 7",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU008",
+        "name": "Viewer Utility 8",
+        "description": "視圖工具 8",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU009",
+        "name": "Viewer Utility 9",
+        "description": "視圖工具 9",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU010",
+        "name": "Viewer Utility 10",
+        "description": "視圖工具 10",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU011",
+        "name": "Viewer Utility 11",
+        "description": "視圖工具 11",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU012",
+        "name": "Viewer Utility 12",
+        "description": "視圖工具 12",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU013",
+        "name": "Viewer Utility 13",
+        "description": "視圖工具 13",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU014",
+        "name": "Viewer Utility 14",
+        "description": "視圖工具 14",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU015",
+        "name": "Viewer Utility 15",
+        "description": "視圖工具 15",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU016",
+        "name": "Viewer Utility 16",
+        "description": "視圖工具 16",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU017",
+        "name": "Viewer Utility 17",
+        "description": "視圖工具 17",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU018",
+        "name": "Viewer Utility 18",
+        "description": "視圖工具 18",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU019",
+        "name": "Viewer Utility 19",
+        "description": "視圖工具 19",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU020",
+        "name": "Viewer Utility 20",
+        "description": "視圖工具 20",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU021",
+        "name": "Viewer Utility 21",
+        "description": "視圖工具 21",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU022",
+        "name": "Viewer Utility 22",
+        "description": "視圖工具 22",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU023",
+        "name": "Viewer Utility 23",
+        "description": "視圖工具 23",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU024",
+        "name": "Viewer Utility 24",
+        "description": "視圖工具 24",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU025",
+        "name": "Viewer Utility 25",
+        "description": "視圖工具 25",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU026",
+        "name": "Viewer Utility 26",
+        "description": "視圖工具 26",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU027",
+        "name": "Viewer Utility 27",
+        "description": "視圖工具 27",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU028",
+        "name": "Viewer Utility 28",
+        "description": "視圖工具 28",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU029",
+        "name": "Viewer Utility 29",
+        "description": "視圖工具 29",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU030",
+        "name": "Viewer Utility 30",
+        "description": "視圖工具 30",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU031",
+        "name": "Viewer Utility 31",
+        "description": "視圖工具 31",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU032",
+        "name": "Viewer Utility 32",
+        "description": "視圖工具 32",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU033",
+        "name": "Viewer Utility 33",
+        "description": "視圖工具 33",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU034",
+        "name": "Viewer Utility 34",
+        "description": "視圖工具 34",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU035",
+        "name": "Viewer Utility 35",
+        "description": "視圖工具 35",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU036",
+        "name": "Viewer Utility 36",
+        "description": "視圖工具 36",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU037",
+        "name": "Viewer Utility 37",
+        "description": "視圖工具 37",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU038",
+        "name": "Viewer Utility 38",
+        "description": "視圖工具 38",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU039",
+        "name": "Viewer Utility 39",
+        "description": "視圖工具 39",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU040",
+        "name": "Viewer Utility 40",
+        "description": "視圖工具 40",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU041",
+        "name": "Viewer Utility 41",
+        "description": "視圖工具 41",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU042",
+        "name": "Viewer Utility 42",
+        "description": "視圖工具 42",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU043",
+        "name": "Viewer Utility 43",
+        "description": "視圖工具 43",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU044",
+        "name": "Viewer Utility 44",
+        "description": "視圖工具 44",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU045",
+        "name": "Viewer Utility 45",
+        "description": "視圖工具 45",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU046",
+        "name": "Viewer Utility 46",
+        "description": "視圖工具 46",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU047",
+        "name": "Viewer Utility 47",
+        "description": "視圖工具 47",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU048",
+        "name": "Viewer Utility 48",
+        "description": "視圖工具 48",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      },
+      {
+        "id": "VU049",
+        "name": "Viewer Utility 49",
+        "description": "視圖工具 49",
+        "category": "viewer",
+        "priceType": "fixed",
+        "price": 5000,
+        "isNecessary": false,
+        "isOnlyOne": false
+      }
+    ]
+  }
+]

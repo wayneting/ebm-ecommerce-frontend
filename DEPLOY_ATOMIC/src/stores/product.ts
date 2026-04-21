@@ -30,23 +30,8 @@ export const useProductStore = defineStore('product', () => {
     } catch (err) {
       console.error('Backend API failed, using fallback mock data:', err)
       // Provide dummy data so the user can test UI even when backend is down
-      products.value = [
-        {
-          id: 'PROD001',
-          name: 'EBM PACS Server',
-          category: 'Medical Imaging',
-          taglineZh: '高穩定醫療影像伺服器',
-          description: '企業級 PACS 系統核心，提供影像儲存與調閱服務。',
-          logo: 'EB',
-          basePrice: 50000,
-          modules: [
-            { id: 'BA001', name: 'Server Basic (Windows)', description: '系統核心授權', category: 'basic', priceType: 'fixed', price: 20000, isNecessary: true, isOnlyOne: true },
-            { id: 'BA002', name: 'Server Basic (Linux)', description: '系統核心授權', category: 'basic', priceType: 'fixed', price: 20000, isNecessary: true, isOnlyOne: true },
-            { id: 'DI001', name: 'DICOM Store SCP', description: '接收儀器影像', category: 'device', priceType: 'fixed', price: 10000, isNecessary: false, isOnlyOne: false, dependModuleIds: ['BA001', 'BA002'] },
-            { id: 'DI002', name: 'DICOM Query/Retrieve', description: '查詢與調閱', category: 'device', priceType: 'fixed', price: 15000, isNecessary: false, isOnlyOne: false, associatedModuleIds: ['DI001'] },
-          ]
-        }
-      ]
+      const mockData = await import('./mockProducts.json')
+      products.value = mockData.default as Product[]
       return products.value
     } finally {
       loading.value = false
