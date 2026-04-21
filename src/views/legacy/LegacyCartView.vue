@@ -60,8 +60,8 @@ function remove(key: string) {
             <td class="border border-[#ccc] p-2 w-8">NT</td>
             <td class="border border-[#ccc] p-2 text-right font-bold">{{ formatNum(cartStore.itemTotal(item)) }}</td>
             <td class="border border-[#ccc] p-2 text-xs">
-              <div v-if="item.licenseType === 'subscription'">
-                以日計費
+              <div v-if="item.licenseType !== 'buyout'">
+                以日計費 ({{ item.licenseType === 'day90' ? '90天' : '365天' }})
               </div>
             </td>
             <td class="border border-[#ccc] p-2 text-center">
