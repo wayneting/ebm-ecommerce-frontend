@@ -51,16 +51,21 @@ export function mapModule(raw: any): ProductModule {
   const id: string = raw?.ID ?? ''
 
   // Parse DependOrderIDJoinValues (semicolon-separated) → dependModuleIds
-  const dependJoin: string = raw?.DependOrderIDJoinValues ?? ''
-  const dependModuleIds = dependJoin
-    ? dependJoin.split(';').map((s: string) => s.trim()).filter(Boolean)
-    : undefined
+  const rawDepend = raw?.DependOrderIDJoinValues
+  const dependModuleIds = typeof rawDepend === 'string' && rawDepend
+    ? rawDepend.split(';').map((s: string) => s.trim()).filter(Boolean)
+    : Array.isArray(rawDepend) ? rawDepend : undefined
 
   // Parse AgainstOrderIDJoinValues → associatedModuleIds
-  const againstJoin: string = raw?.AgainstOrderIDJoinValues ?? ''
-  const associatedModuleIds = againstJoin
-    ? againstJoin.split(';').map((s: string) => s.trim()).filter(Boolean)
-    : (raw?.AgainstOrderIDs as string[] | undefined) ?? undefined
+  const rawAgainst = raw?.AgainstOrderIDJoinValues
+  let associatedModuleIds: string[] | undefined
+  if (typeof rawAgainst === 'string' && rawAgainst) {
+    associatedModuleIds = rawAgainst.split(';').map((s: string) => s.trim()).filter(Boolean)
+  } else if (Array.isArray(rawAgainst)) {
+    associatedModuleIds = rawAgainst
+  } else {
+    associatedModuleIds = (raw?.AgainstOrderIDs as string[] | undefined) ?? undefined
+  }
 
   return {
     id,
