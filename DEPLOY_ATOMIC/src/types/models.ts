@@ -49,7 +49,8 @@ export interface ProductModule {
   isNecessary: boolean
   isOnlyOne: boolean
   maxQuantity?: number
-  associatedModuleIds?: string[] // 選此必帶
+  associatedModuleIds?: string[] // 選此必帶（關聯子項目）
+  dependModuleIds?: string[] // 必須先購買（前置條件）
   requiresOneOf?: string[][] // 選此必選至少一組（陣列 of 陣列）
 }
 

@@ -49,6 +49,19 @@ export function mapModule(raw: any): ProductModule {
   const priceFromInfo = raw?.ModulePriceTypeInfos?.[0]?.PriceFormular
   const price = Number(priceFromInfo ?? raw?.Price ?? 0) || 0
   const id: string = raw?.ID ?? ''
+
+  // Parse DependOrderIDJoinValues (semicolon-separated) → dependModuleIds
+  const dependJoin: string = raw?.DependOrderIDJoinValues ?? ''
+  const dependModuleIds = dependJoin
+    ? dependJoin.split(';').map((s: string) => s.trim()).filter(Boolean)
+    : undefined
+
+  // Parse AgainstOrderIDJoinValues → associatedModuleIds
+  const againstJoin: string = raw?.AgainstOrderIDJoinValues ?? ''
+  const associatedModuleIds = againstJoin
+    ? againstJoin.split(';').map((s: string) => s.trim()).filter(Boolean)
+    : (raw?.AgainstOrderIDs as string[] | undefined) ?? undefined
+
   return {
     id,
     name: raw?.Name ?? '',
@@ -60,8 +73,8 @@ export function mapModule(raw: any): ProductModule {
     isNecessary: Boolean(raw?.IsNecessary),
     isOnlyOne: Boolean(raw?.IsOnlyOne),
     maxQuantity: raw?.IsOnlyOne ? 1 : undefined,
-    associatedModuleIds:
-      (raw?.AgainstOrderIDs as string[] | undefined) ?? undefined,
+    associatedModuleIds,
+    dependModuleIds,
   }
 }
 
