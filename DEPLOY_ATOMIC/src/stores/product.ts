@@ -27,12 +27,6 @@ export const useProductStore = defineStore('product', () => {
       )
       products.value = (raw?.Items ?? []).map(mapProduct)
       return products.value
-    } catch (err) {
-      console.error('Backend API failed, using fallback mock data:', err)
-      // Provide dummy data so the user can test UI even when backend is down
-      const mockData = await import('./mockProducts.json')
-      products.value = mockData.default as Product[]
-      return products.value
     } finally {
       loading.value = false
     }
