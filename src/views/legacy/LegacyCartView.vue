@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import LegacyLayout from '@/layouts/LegacyLayout.vue'
 import { useCartStore } from '@/stores/cart'
 
@@ -49,19 +49,19 @@ function remove(key: string) {
             <td class="border border-[#ccc] p-2 text-center text-blue-700 text-xs">
               <a href="javascript:void(0)" @click="toggleDetails(item.cartItemId)">顯示細節</a>
               |
-              <router-link :to="`/legacy/products/${item.productId}/configure`" class="hover:underline">編輯</router-link>
+              <router-link :to="`/legacy/products/${item.product.id}/configure`" class="hover:underline">編輯</router-link>
             </td>
-            <td class="border border-[#ccc] p-2 font-mono">{{ item.productId }}</td>
-            <td class="border border-[#ccc] p-2">{{ item.productName }}</td>
-            <td class="border border-[#ccc] p-2 font-mono">{{ item.serialNumber || '---' }}</td>
+            <td class="border border-[#ccc] p-2 font-mono">{{ item.product.id }}</td>
+            <td class="border border-[#ccc] p-2">{{ item.product.name }}</td>
+            <td class="border border-[#ccc] p-2 font-mono">{{ item.dongleId || '---' }}</td>
             <td class="border border-[#ccc] p-2">
-              {{ item.purchaseType === 'buyout' ? '新購 - 買斷' : '新購 - 以日計費' }}
+              {{ item.licenseType === 'buyout' ? '新購 - 買斷' : '新購 - 以日計費' }}
             </td>
             <td class="border border-[#ccc] p-2 w-8">NT</td>
-            <td class="border border-[#ccc] p-2 text-right font-bold">{{ formatNum(item.totalPrice) }}</td>
+            <td class="border border-[#ccc] p-2 text-right font-bold">{{ formatNum(cartStore.itemTotal(item)) }}</td>
             <td class="border border-[#ccc] p-2 text-xs">
-              <div v-if="item.purchaseType === 'subscription'">
-                購買日數: {{ item.duration }}天
+              <div v-if="item.licenseType === 'subscription'">
+                以日計費
               </div>
             </td>
             <td class="border border-[#ccc] p-2 text-center">
@@ -90,15 +90,18 @@ function remove(key: string) {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="sel in item.moduleSelections.filter(s => s.selected || s.isNecessary)" :key="sel.moduleId">
-                    <td class="p-1 border border-[#ddd] font-mono">{{ sel.moduleId }}</td>
-                    <td class="p-1 border border-[#ddd]">{{ sel.moduleName }}</td>
-                    <td class="p-1 border border-[#ddd] text-gray-500">{{ sel.moduleDescription }}</td>
-                    <td class="p-1 border border-[#ddd] text-right">{{ sel.quantity }}</td>
+                  <tr v-for="mod in item.product.modules.filter(m => {
+                    const sel = item.moduleSelections.find(s => s.moduleId === m.id)
+                    return m.isNecessary || sel?.selected
+                  })" :key="mod.id">
+                    <td class="p-1 border border-[#ddd] font-mono">{{ mod.id }}</td>
+                    <td class="p-1 border border-[#ddd]">{{ mod.name }}</td>
+                    <td class="p-1 border border-[#ddd] text-gray-500">{{ mod.description }}</td>
+                    <td class="p-1 border border-[#ddd] text-right">{{ item.moduleSelections.find(s => s.moduleId === mod.id)?.quantity ?? 1 }}</td>
                     <td class="p-1 border-y border-[#ddd] w-4 uppercase">NT</td>
-                    <td class="p-1 border border-[#ddd] text-right">{{ formatNum(sel.unitPrice || 0) }}</td>
+                    <td class="p-1 border border-[#ddd] text-right">{{ formatNum(mod.price) }}</td>
                     <td class="p-1 border-y border-[#ddd] w-4 uppercase">NT</td>
-                    <td class="p-1 border border-[#ddd] text-right font-bold">{{ formatNum((sel.unitPrice || 0) * (sel.quantity || 1)) }}</td>
+                    <td class="p-1 border border-[#ddd] text-right font-bold">{{ formatNum(cartStore.moduleSubtotal(item, mod.id)) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -112,7 +115,7 @@ function remove(key: string) {
        <div class="text-sm font-bold">總金額</div>
        <div class="text-xl font-bold flex items-baseline gap-2">
          <span class="text-sm">NT</span>
-         <span>{{ formatNum(cartStore.totalPrice) }}</span>
+         <span>{{ formatNum(cartStore.grandTotal) }}</span>
        </div>
     </div>
 
